@@ -1,0 +1,194 @@
+ 
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+									Capture ScreenShot
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+		 WebDriver driver=new FirefoxDriver();
+		 
+		
+	    captureScreenShot(driver);
+		 
+	
+		driver.manage().window().maximize();
+		captureScreenShot(driver);
+		 
+	
+		driver.get("http://www.google.com");
+		captureScreenShot(driver);
+		
+	}
+	
+	
+	
+		public static void captureScreenShot(WebDriver driver)
+			{
+				try 
+					{
+						TakesScreenshot ts = (TakesScreenshot)driver;
+			
+						File src= ts.getScreenshotAs(OutputType.FILE);
+				
+			
+						 FileHandler.copy(src, new File("C:/selenium/error.png"));
+				
+						
+						System.out.println(" SceenShot Taken ");
+					
+					}
+				 
+				catch (IOException e)
+				 {
+					 System.out.println(e.getMessage());
+				 
+				 }
+				
+			 }
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+									ScrrenShot AS File
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		// now copy the screenshot to desired location using copyFile //method
+		FileUtils.copyFile(src, new File("/Users/naveenkhunteta/Documents/workspace/MorningSessions/src/SeleniumSessions/element.png"));
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+							public static String getScreenshot(WebDriver driver)
+								{
+									TakesScreenshot ts=(TakesScreenshot) driver;
+									
+									File src=ts.getScreenshotAs(OutputType.FILE);
+									
+									String path=System.getProperty("user.dir")+"/Screenshot/"+System.currentTimeMillis()+".png";
+									
+									File destination=new File(path);
+									
+									try 
+									{
+										 FileHandler.copy(src, destination);
+									} catch (IOException e) 
+									{
+										System.out.println("Capture Failed "+e.getMessage());
+									}
+									
+									return path;
+								}
+							
+							
+							
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------					=				// Screenshot  with Destination
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------							
+							
+							
+							public static String takeScreenshot(WebDriver driver, String fileName) throws IOException {
+								fileName = fileName + ".png";
+								String directory = "D:\\ScreenSHoots";
+								File sourceFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+								 FileHandler.copy(sourceFile, new File(directory + fileName));
+								String destination = directory + fileName;
+								return destination;
+							}
+							
+	-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------									// Screenshot ONLY		
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------							
+							public static void captureScreenShot(WebDriver driver)
+								{
+									try 
+										{
+											TakesScreenshot ts = (TakesScreenshot)driver;
+								
+											File src= ts.getScreenshotAs(OutputType.FILE);
+									
+								
+											 FileHandler.copy(src, new File("C:/selenium/error.png"));
+									
+											
+											System.out.println(" SceenShot Taken ");
+										
+										}
+									 
+									catch (IOException e)
+									 {
+										 System.out.println(e.getMessage());
+									 
+									 }
+									
+								 }
+							
+		-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
+							// screenShot Of Specific element		-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------				
+							// "test.jpeg"
+							
+							
+							public static void ScreenshotOfElement(WebDriver driver,WebElement ele,String Namee) throws IOException
+								{
+
+									
+								 	 File screenshot =((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+								 	 
+								 	 BufferedImage fullImage = ImageIO.read(screenshot);
+								 	 
+								 	 Point point =ele.getLocation();
+								 	 
+								 	 int eleWid =ele.getSize().getWidth();
+								 	 int eleHight =ele.getSize().getHeight();
+								 	
+								 	BufferedImage eleScreenshot =fullImage.getSubimage(point.getX(), point.getY(),eleWid, eleHight);
+								 	
+								 	ImageIO.write(eleScreenshot, "Png", screenshot);
+								 	
+								 	FileHandler.copy(screenshot,new File(Namee));
+								}
+
+		
+		-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+							// Screen Shot With Path
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------							
+							public static String  captureScreenShotWF (WebDriver driver,String screenshotName)
+							{
+								try 
+								{
+									TakesScreenshot ts = (TakesScreenshot)driver;
+									
+									File source =ts.getScreenshotAs(OutputType.FILE);
+									
+									String dest ="D:\\Test\\"+screenshotName+".png";
+									
+									File destination = new File(dest);
+									
+									FileHandler.copy(source, destination);
+									
+									System.out.println(" SceenShot Taken ");
+									
+									return dest;
+								}
+								
+								catch (IOException e)
+									 {
+										 System.out.println(e.getMessage());
+										 return e.getMessage();
+									 }
+								
+								
+							}
+		
+		

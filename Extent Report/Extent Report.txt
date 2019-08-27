@@ -1,0 +1,52 @@
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+								Extent  Report
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+http://relevantcodes.com/extentreports-­-for-­-selenium/
+
+Extent Reports Version: 2.40.1
+https://search.maven.org/search?q=g:com.relevantcodes%20AND%20a:extentreports
+
+// Sometimes Takes Extra  Time  To Complete the tests
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
+public class Prac
+	{
+		 static ExtentReports report;
+		
+	     static ExtentTest test;
+		
+		
+		
+		public static  void main(String[] args) throws InterruptedException, URISyntaxException, IOException,Exception
+			{	
+				
+				report = new ExtentReports("D://RJ//logintest.html");
+				test = report.startTest("Verify Welcome Text");
+						 
+					
+					 
+					    	 System.setProperty("webdriver.chrome.driver","D:/Selenium-Drivers/Rj/chromedriver.exe"); 
+							 WebDriver driver = new ChromeDriver ();
+							 driver.manage().window().maximize();
+							 
+							 driver.get("https://www.rushitpatel.com/chatus/");
+					  
+						test.log(LogStatus.INFO, "Web application opened");
+					  
+					     
+
+						report.endTest(test);
+						report.flush();
+						
+						driver.quit();
+					     
+							
+			}
+

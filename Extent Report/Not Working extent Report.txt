@@ -1,0 +1,342 @@
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------											
+Log4J
+----------------------------------------------------------------------------------------------------------------------
+
+
+----------
+
+
+Log4j is free open source tool given by Apache foundation for creating log files It helps us to generate a log file in various output target.
+
+Downlaod From here :
+
+ https://www-us.apache.org/dist/logging/log4j/1.2.17/log4j-1.2.17.zip
+
+
+
+Maven:
+
+ <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.12.0</version>
+</dependency>
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Save This  File In Home Directory, and  save as log4j.properties
+
+
+// Here we have defined root logger
+log4j.rootLogger=INFO,CONSOLE,R,HTML,TTCC
+ 
+// Here we define the appender
+log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender
+log4j.appender.R=org.apache.log4j.RollingFileAppender
+log4j.appender.TTCC=org.apache.log4j.RollingFileAppender
+log4j.appender.HTML=org.apache.log4j.FileAppender
+ 
+// Here we define log file location
+log4j.appender.R.File=./log/testlog.log
+log4j.appender.TTCC.File=./log/testlog1.log
+log4j.appender.HTML.File=./log/application.html
+ 
+// Here we define the layout and pattern
+log4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout
+log4j.appender.CONSOLE.layout.ConversionPattern= %5p [%t] (%F:%L)- %m%n
+log4j.appender.R.layout=org.apache.log4j.PatternLayout
+log4j.appender.R.layout.ConversionPattern=%d - %c -%p - %m%n
+log4j.appender.TTCC.layout=org.apache.log4j.TTCCLayout
+log4j.appender.TTCC.layout.DateFormat=ISO8601
+log4j.appender.HTML.layout=org.apache.log4j.HTMLLayout
+log4j.appender.HTML.layout.Title=Application log
+log4j.appender.HTML.layout.LocationInfo=true
+-----------------------------------------------------------------------------------------------------------------------
+
+
+import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+
+
+
+
+
+						 // Here we need to create logger instance so we need to pass Class name for 
+					     //which  we want to create log file in my case Google is classname
+					         Logger logger=Logger.getLogger("Prac");
+					        
+					 
+					       // configure log4j properties file
+					       PropertyConfigurator.configure("Log4j.properties");
+					 
+					    	 System.setProperty("webdriver.chrome.driver","D:/Selenium-Drivers/Rj/chromedriver.exe"); 
+							 WebDriver driver = new ChromeDriver ();
+						     logger.info("Browser Opened");
+							 driver.manage().window().maximize();
+					  
+					       
+					  
+					      
+					        // Set implicit wait
+					        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+					        logger.info("Implicit wait given");
+					      
+					 
+					        // Load application
+					        driver.get("https://www.google.co.in/");
+					        logger.info("Url opened");
+					      
+					 
+					        // type Selenium
+					        driver.findElement(By.name("q")).sendKeys("Selenium");
+					        logger.info("keyword type");  
+					        
+					        driver.quit();
+
+
+
+
+
+					        You  Can Check  the OutPut In console
+					        Into  Home Directory  another  Log File  Will Also Be created
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+Extent Report
+---------------------------------------------------------------------------------------------------------------------
+
+1- Open https://mvnrepository.com/artifact/com.relevantcodes/extentreports/2.01
+
+
+
+
+<!-- https://mvnrepository.com/artifact/com.relevantcodes/extentreports -->
+<dependency>
+    <groupId>com.relevantcodes</groupId>
+    <artifactId>extentreports</artifactId>
+    <version>2.01</version>
+</dependency>
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+<span style="font-family: arial, helvetica, sans-serif; font-size: 14pt;">package SmokeTest;
+ 
+import library.Utility;
+ 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+ 
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+ 
+public class VerifyTitle 
+{
+ 
+ExtentReports report;
+ExtentTest logger; 
+WebDriver driver;
+ 
+ 
+@Test
+public void verifyBlogTitle()
+{
+report=new ExtentReports("C:\\Report\\LearnAutomation.html");
+ 
+logger=report.startTest("VerifyBlogTitle");
+ 
+driver=new FirefoxDriver();
+ 
+driver.manage().window().maximize();
+ 
+logger.log(LogStatus.INFO, "Browser started ");
+ 
+driver.get("http://www.learn-automation.com");
+ 
+logger.log(LogStatus.INFO, "Application is up and running");
+ 
+String title=driver.getTitle();
+ 
+Assert.assertTrue(title.contains("Google")); 
+ 
+logger.log(LogStatus.PASS, "Title verified");
+}
+ 
+ 
+@AfterMethod
+public void tearDown(ITestResult result)
+{
+if(result.getStatus()==ITestResult.FAILURE)
+{
+ 
+String screenshot_path=Utility.captureScreenshot(driver, result.getName());
+String image= logger.addScreenCapture(screenshot_path);
+logger.log(LogStatus.FAIL, "Title verification", image);
+ 
+ 
+}
+ 
+report.endTest(logger);
+report.flush();
+ 
+driver.get("C:\\Report\\LearnAutomation.html");
+}
+ 
+ 
+}</span>
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+package Framework;
+
+import static org.testng.Assert.assertEquals;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
+
+
+/*													MUST MUST MUST
+ * 
+ * Before Running Any Test You MUST MUST  Add  The TestNG Library (To The Project) and testng.annotations to the Class
+ * 
+ * Required For Running The Test
+ * 
+ * 
+ * */
+
+
+
+
+
+public class CricBuzzTest
+	{
+	
+		 static ExtentReports report;			
+	     static ExtentTest test;
+		WebDriver driver;
+		
+		
+		  public void InitializeDriver(String browser)
+			    {
+			        switch (browser)
+			        {
+			            case "Chrome":
+			                driver = new ChromeDriver();
+			                    break;
+			            case "edge":
+			                driver = new EdgeDriver();
+			                break;
+			            case "Firefox":
+			                driver = new FirefoxDriver();
+			                break;
+			            case "IE":
+			                driver = new InternetExplorerDriver();
+			                break;
+			            default:
+			                driver = new ChromeDriver();
+			                break;
+			        }
+			    }
+		
+		
+		  
+		  
+		  
+		  	@BeforeClass
+			public void beforeClass() 
+		  {
+			
+				report = new ExtentReports("D://RJ//logintest2.html"); //  change  it Every Time
+				test = report.startTest("Verify Welcome Text");
+				InitializeDriver("Chrome");
+				driver.manage().window().maximize();
+				test.log(LogStatus.INFO, "Browser Started...");
+				driver.get("https://www.cricbuzz.com/");
+
+			}
+		  
+		  	
+		  	
+		  	
+		
+			
+			
+			@Test
+			public void getTitle() throws InterruptedException
+			{
+			
+				 String title=driver.getTitle();
+				 System.out.println(title);
+				 
+				 assertEquals(title,"Facebook - Log In or Signhgjhgjhg Up");
+						 
+			}
+			
+			
+			
+		
+			
+			
+			
+
+			@AfterMethod
+			public void tearDown(ITestResult result) throws IOException
+			{
+			if(result.getStatus()==ITestResult.FAILURE)
+			{
+			 
+			String screenshot_path=Helper.takeScreenshot(driver, result.getName());
+			String image= test.addScreenCapture(screenshot_path);
+			test.log(LogStatus.FAIL, "Title verification", image);
+			 
+			 
+			}
+			driver.quit();
+			report.endTest(test);
+			report.flush();
+			
+			driver.get("D://RJ//logintest2.html");
+			}
+			 
+			
+			
+			
+			
+			
+			
+												/****** Helper Methods ******/
+			
+	}

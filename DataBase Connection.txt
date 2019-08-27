@@ -1,0 +1,62 @@
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+								Connect With MySQL DataBAse using Connector in java
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+JDBC Connector in java
+
+
+Download mysql Connector jar 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Class.forName("com.mysql.jdbc.Driver");
+				
+				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dshop","root","root");
+				
+				Statement smt = con.createStatement();
+				
+				ResultSet rs = smt.executeQuery("select * from cats");
+				
+				while(rs.next())
+					{
+						
+						String name= rs.getString("name");
+						
+						System.out.println("The Name of the Cats are " + name);
+						
+							String breed= rs.getString("name");
+						
+						System.out.println("The Breed of the Cats are " + breed);
+					}
+		
+				
+				 
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        
+	                String host="localhost";
+
+	                String port= "3306";
+
+	                Connection con=DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/dshop", "root", "root");
+
+	                Statement s=con.createStatement();
+
+	          
+	                ResultSet rs = s.executeQuery("select * from cats");
+	                while(rs.next())
+						{
+							
+							String name= rs.getString("name");
+							
+							System.out.println("The Name of the Cats are " + name);
+							
+								String breed= rs.getString("name");
+							
+							System.out.println("The Breed of the Cats are " + breed);
+						}

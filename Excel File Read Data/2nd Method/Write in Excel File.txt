@@ -1,0 +1,42 @@
+
+				try {
+					 
+					 
+				File src=new File("D:\\Test.xlsx");
+				 
+				  // Load the file
+				 
+				  FileInputStream fis=new FileInputStream(src);
+				 
+				   // load the workbook
+				 
+				   XSSFWorkbook wb=new XSSFWorkbook(fis);
+				 
+				  // get the sheet which you want to modify or create
+				 
+				   XSSFSheet sh1= wb.getSheetAt(0);
+				   
+				   sh1.getRow(0).createCell(2).setCellValue("abcddgd");
+					 
+					 sh1.getRow(1).createCell(2).setCellValue("chdhtdft");
+					 
+					 
+					 FileOutputStream fout=new FileOutputStream(src);
+					 
+					 
+						// finally write content 
+						 
+						 wb.write(fout);
+						 
+						// close the file
+						 
+						 wb.close();
+				 
+					 
+					  } catch (Exception e) {
+					 
+					   System.out.println(e.getMessage());
+					 
+					  } 
+
+					System.out.println("TestFinished");	
